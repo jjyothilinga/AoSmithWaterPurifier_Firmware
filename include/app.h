@@ -13,8 +13,8 @@ enum
 
 enum
 { 
-	PORTB2_CODE = 0X02,
-	PORTB1_CODE = 0X01
+	PORTB0_CODE = 0X01,
+	PORTB1_CODE = 0X02
 };
 
 extern void APP_init(void);

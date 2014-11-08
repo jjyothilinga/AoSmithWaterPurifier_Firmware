@@ -2,34 +2,32 @@
 #include "portb.h"
 
 
-#pragma idata EXINT_DATA
-UINT8 portb2_hasData = 0;
+#pragma udata EXINT_DATA
+UINT8 portb0_hasData = 0;
 UINT8 portb1_hasData = 0;
-#pragma idata
+#pragma udata
 
 void externInt_init(void)
 {   
-	OpenRB2INT( PORTB_PULLUPS_OFF & FALLING_EDGE_INT & PORTB_INT_PRIO_HIGH );
+	OpenRB0INT( PORTB_PULLUPS_ON & FALLING_EDGE_INT & PORTB_INT_PRIO_HIGH );
   
-    OpenRB1INT( PORTB_PULLUPS_OFF & FALLING_EDGE_INT &PORTB_INT_PRIO_HIGH );
+    OpenRB1INT( PORTB_PULLUPS_ON & FALLING_EDGE_INT &PORTB_INT_PRIO_HIGH );
 
-
-	INTCON3bits.INT2IE = 1;
-	INTCON3bits.INT2IF = 0;	
+	INTCONbits.INT0IF = 0;	
 	INTCON3bits.INT1IF = 0;
 }
 
-#pragma interrupt RB2INT_ISR
-void RB2INT_ISR(void)
+#pragma interrupt RB0INT_ISR
+void RB0INT_ISR(void)
 {
 
-  	INTCON3bits.INT2IF =0;	//clear interrupt flag	
+  	INTCONbits.INT0IF =0;	//cleat interrupt flag	
 
-	if(debounceCount_B2 < 2500)
+	if(debounceCount_B0 < 2500)
 		return;
 	else
-		debounceCount_B2 = 0;
-	portb2_hasData = 1;	//set interrupt indication
+		debounceCount_B0 = 0;
+	portb0_hasData = 1;	//set interrupt indication
 
 }
 	

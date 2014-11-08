@@ -13,7 +13,7 @@ TMR tmr[2] = { 0 , 0 };
 UINT16 heartBeatCount  =0 ;
 UINT16 keypadUpdate_count  =0 ;
 UINT16 comUpdateCount = 0;
-UINT16 debounceCount_B2 = 0;
+UINT16 debounceCount_B0 = 0;
 UINT16 debounceCount_B1 = 0;
 
 
@@ -43,9 +43,9 @@ void TMR0_ISR(void)
 	++keypadUpdate_count;
 	++comUpdateCount;
 
-	if(debounceCount_B2 < 2500)
+	if(debounceCount_B0 < 2500)
 	{
-		++debounceCount_B2;	
+		++debounceCount_B0;	
 	}
 	if (debounceCount_B1 < 2500)
 	{

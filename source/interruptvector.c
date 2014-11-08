@@ -24,9 +24,9 @@ void high_interrupt (void)
 		_asm goto TMR1_ISR _endasm
 	}
 
-    if(INTCON3bits.INT2IF == 1)
+    if(INTCONbits.INT0IF == 1)
 	{
-		_asm goto RB2INT_ISR _endasm
+		_asm goto RB0INT_ISR _endasm
 	}
 
 	if(INTCON3bits.INT1IF == 1)
@@ -72,12 +72,10 @@ void low_interrupt (void)
 void EnableInterrupts(void)
 {
     //	RCONbits.IPEN = 1;
-        INTCON = 0xB0;
-
- 	// Enable all high priority interrupts
-  	INTCONbits.GIEH = 1;
      
-/*
+
+     
+
 	// Enable interrupt priority
   	RCONbits.IPEN = 1;
  	// Enable all high priority interrupts
@@ -90,5 +88,6 @@ void EnableInterrupts(void)
     INTCONbits.INT0IF = 0;
     INTCONbits.RBIF = 0;
 
-*/
+  	//INTCON = 0xB0;
+
 }

@@ -56,9 +56,6 @@ enum
 #define RESP_EOP	0xDD
 
 
-/* APP configuration */
-//#define TEST
-
 /*
 *------------------------------------------------------------------------------
 * Public Data Types

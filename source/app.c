@@ -3,29 +3,8 @@
 
 
 
-extern UINT8 portb2_hasData;
+extern UINT8 portb0_hasData;
 extern UINT8 portb1_hasData;
-
-#if defined(TEST)
-#pragma idata APP_DATA
-UINT8 data[][20] = {	"B1631405110001\r\n",
-					  	"B1631405110002\r\n",
-						"B1631405110003\r\n",
-						"B1631405110004\r\n",
-						"B1631405110005\r\n",
-						"B1631405110006\r\n",
-					  	"B1631405110007\r\n",
-						"B1631405110008\r\n",
-						"B1631405110009\r\n",
-						"B1631405110010\r\n",
-						"B1631405110011\r\n",
-					  	"B1631405110012\r\n",
-						"B1631405110013\r\n",
-						"B1631405110014\r\n",
-						"B1631405110015\r\n"
-					 };					  
-#pragma idata
-#endif
 
 
 /*------------------------------------------------------------------------------
@@ -67,7 +46,7 @@ EVENT_LOG log = {0};
 
 typedef struct _APP
 {
-	UINT8 portb2_data[2];
+	UINT8 portb0_data[2];
 	UINT8 portb1_data[2];
 }APP;
 
@@ -91,56 +70,34 @@ void APP_init(void)
 *----------------------------------------------------------------------------------------------------------------
 */		
 void APP_task(void)
-{     
-
-	UINT8 i;
-	static UINT8 j = 0;
-
- ENTER_CRITICAL_SECTION();  //turn OFF all interrupts
+{      
     if(portb1_hasData == 1)
 	{
+		ENTER_CRITICAL_SECTION();  //turn OFF all interrupts
 
-		portb1_hasData =0;
-
-		
-		EXIT_CRITICAL_SECTION();  //turn OFF all interrupts
 		app.portb1_data[0] = PORTB1_CODE;
 		app.portb1_data[1] = 0X01;
 
 		logWrite( &app.portb1_data, 2 );    // Write status of PORTB1
 
-		
-#if defined(TEST)
-		for( i = 0; i < strlen(data[j]); i++ )
-			UART_write(data[j][i]);
+		portb1_hasData =0;
 
-		UART_transmit();
-		j++;
-
-		if( j > 15 )
-			j = 0;
-#endif
-
-	
-	}
-	EXIT_CRITICAL_SECTION();  //turn OFF all interrupts
-
-	ENTER_CRITICAL_SECTION();  //turn OFF all interrupts
-	if( portb2_hasData == 1 )
-    {
-		portb2_hasData = 0;
 		EXIT_CRITICAL_SECTION();  //turn OFF all interrupts
+	}
 
-		app.portb2_data[0] = PORTB2_CODE;
-		app.portb2_data[1] = 0X01;
+	else if( portb0_hasData == 1 )
+    {
+		ENTER_CRITICAL_SECTION();  //turn OFF all interrupts
 
-		logWrite( &app.portb2_data, 2 );    // Write status of PORTB1
+		app.portb0_data[0] = PORTB0_CODE;
+		app.portb0_data[1] = 0X01;
 
-	    
+		logWrite( &app.portb0_data, 2 );    // Write status of PORTB1
 
-	
+	    portb0_hasData = 0;
+
+		EXIT_CRITICAL_SECTION();  //turn OFF all interrupts
  	}
-	EXIT_CRITICAL_SECTION();  //turn OFF all interrupts
  
 }	
 
